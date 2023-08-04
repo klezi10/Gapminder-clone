@@ -12,6 +12,10 @@ const g = svg
 	.append('g')
 	.attr('transform', `translate(${MARGIN.LEFT}, ${MARGIN.TOP})`);
 
+const x = d3.scaleLog().domain([100, 15000]).range([0, WIDTH]).base(2);
+
+const y = d3.scaleLinear().domain([0, 90]).range([HEIGHT, 0]);
+
 d3.json('data/data.json').then((data) => {
 	const formattedData = data.map((data) =>
 		data['countries']
@@ -27,6 +31,10 @@ d3.json('data/data.json').then((data) => {
 			})
 	);
 
+	x.domain(data.map((d) => d.income));
+
+	y.domain([0, d3.max(data, (d) => d[d.life_exp])]);
+
 	const circles = d3.selectAll('circle').data(formattedData);
 
 	circles
@@ -35,6 +43,4 @@ d3.json('data/data.json').then((data) => {
 		.attr('fill', 'grey')
 		.attr('cy', 0)
 		.attr('r', 5);
-
-	console.log(circles);
 });
