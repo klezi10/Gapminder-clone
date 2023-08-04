@@ -35,6 +35,26 @@ d3.json('data/data.json').then((data) => {
 
 	y.domain([0, d3.max(data, (d) => d[d.life_exp])]);
 
+	const xAxisCall = d3.axisBottom(x).tickValues(d3.range(400, 4000, 40000));
+
+	const yAxisCall = d3.axisLeft(y);
+
+	g.append('text')
+		.attr('class', 'x axis-label')
+		.attr('x', WIDTH / 2)
+		.attr('y', HEIGHT + 80)
+		.attr('font-size', '20px')
+		.attr('text-anchor', 'middle')
+		.text('GDP per capita');
+
+	g.append('text')
+		.attr('class', 'y axis-label')
+		.attr('x', -HEIGHT / 2)
+		.attr('y', -80)
+		.attr('font-size', '20px')
+		.attr('text-anchor', 'middle')
+		.attr('transform', 'rotate(-90)');
+
 	const circles = d3.selectAll('circle').data(formattedData);
 
 	circles
